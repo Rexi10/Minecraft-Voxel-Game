@@ -166,7 +166,7 @@ MonoBehaviour:
   mapSizeInChunks: 6
   chunkSize: 16
   chunkHeight: 100
-  chunkDrawingRange: 2
+  chunkDrawingRange: 16
   chunkPrefab: {fileID: 636769179254561469, guid: aedfd61c09a8e234ba2575081fd01cf1, type: 3}
   terrainGenerator: {fileID: 1476420250}
   mapSeedOffset: {x: 0, y: 0}
@@ -360,8 +360,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.034937274, y: 0.6588945, z: -0.030660719, w: 0.75079787}
-  m_LocalPosition: {x: -3.57424, y: 1.5511696, z: -0.13738883}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1365,8 +1365,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569707947}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.034937274, y: 0.6588945, z: -0.030660719, w: 0.75079787}
-  m_LocalPosition: {x: -3.57424, y: 1.5511696, z: -0.13738883}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
