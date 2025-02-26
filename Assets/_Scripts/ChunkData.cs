@@ -1,4 +1,5 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ChunkData
@@ -13,8 +14,8 @@ public class ChunkData
 
     public ChunkData(int chunkSize, int chunkHeight, World world, Vector3Int worldPosition)
     {
-        this.chunkSize = chunkSize;
         this.chunkHeight = chunkHeight;
+        this.chunkSize = chunkSize;
         this.worldReference = world;
         this.worldPosition = worldPosition;
         blocks = new BlockType[chunkSize * chunkHeight * chunkSize];

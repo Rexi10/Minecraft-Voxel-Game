@@ -10,8 +10,8 @@ public static class DirectionExtensions
             Direction.down => Vector3Int.down,
             Direction.left => Vector3Int.left,
             Direction.right => Vector3Int.right,
-            Direction.forward => Vector3Int.forward,
-            Direction.back => Vector3Int.back,
+            Direction.foreward => Vector3Int.forward,
+            Direction.backwards => Vector3Int.back,
             _ => throw new System.Exception("Invalid input direction")
         };
     }
