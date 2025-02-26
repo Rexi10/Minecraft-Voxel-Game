@@ -18,6 +18,7 @@ public class MeshData
     //helper boolean flag
     private bool isMainMesh = true;
 
+
     //constructor, para evitar um problema de recursão infinita, usamos um booleano para saber se é a mesh principal ou não.
     public MeshData(bool isMainMesh)
     {
