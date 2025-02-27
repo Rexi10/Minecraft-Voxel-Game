@@ -11,8 +11,7 @@ public enum BlockType
     Grass_Stone,
     Stone,
     TreeTrunk,
-    TreeLeavesTransparent,
-    TreeLeavesSolid,
+    TreeLeaves,
     Water,
     Sand
 }

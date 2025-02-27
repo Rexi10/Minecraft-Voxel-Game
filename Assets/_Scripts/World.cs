@@ -116,7 +116,10 @@ public class World : MonoBehaviour
         {
             worldData.chunkDataDictionary.Add(calculateData.Key, calculateData.Value);
         }
-
+        foreach(var chunkData in worldData.chunkDataDictionary.Values)
+        {
+            AddTreeLeafs(chunkData);
+        }
         
         ConcurrentDictionary<Vector3Int, MeshData> meshDataDictionary = new ConcurrentDictionary<Vector3Int, MeshData>();
 
@@ -137,6 +140,14 @@ public class World : MonoBehaviour
 
 
         StartCoroutine(ChunkCreationCoroutine(meshDataDictionary));
+    }
+
+    private void AddTreeLeafs(ChunkData chunkData)
+    {
+        foreach(var treeLeafes in chunkData.treeData.treeLeafes)
+        {
+            Chunk.SetBlock(chunkData, treeLeafes, BlockType.TreeLeaves);
+        }
     }
 
     private async Task<ConcurrentDictionary<Vector3Int, MeshData>> CreateMeshDataAsync(List<ChunkData> dataToRender)

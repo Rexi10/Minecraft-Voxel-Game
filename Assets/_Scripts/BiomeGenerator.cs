@@ -16,6 +16,8 @@ public class BiomeGenerator : MonoBehaviour
     public BlockLayerHandler startLayerHandler;
 
     public List<BlockLayerHandler> additionalLayerHandlers;
+    
+    public TreeGenerator treeGenerator;
 
     public ChunkData ProcessChunkColumn(ChunkData data, int x, int z, Vector2Int mapSeedOffset)
     {
@@ -32,6 +34,15 @@ public class BiomeGenerator : MonoBehaviour
             layer.Handle(data, x, data.worldPosition.y, z, groundPosition, mapSeedOffset);
         }
         return data;
+    }
+
+    internal TreeData GetTreeData(ChunkData data, Vector2Int mapSeedOffset)
+    {
+        if (treeGenerator == null)
+        {
+            return new TreeData();
+        }
+        return treeGenerator.GenerateTreeData(data, mapSeedOffset);
     }
 
     private int GetSurfaceHeightNoise(int x, int z, int chunkHeight)
