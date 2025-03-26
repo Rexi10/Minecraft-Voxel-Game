@@ -5,13 +5,13 @@ using UnityEngine;
 
 public static class WorldDataHelper
 {
-    public static Vector3Int ChunkPositionFromBlockCoords(World world, Vector3Int worldPosition)
+    public static Vector3Int ChunkPositionFromBlockCoords(World world, Vector3Int worldBlockPosition)
     {
         return new Vector3Int
         {
-            x = Mathf.FloorToInt(worldPosition.x / (float)world.chunkSize) * world.chunkSize,
-            y = Mathf.FloorToInt(worldPosition.y / (float)world.chunkHeight) * world.chunkHeight,
-            z = Mathf.FloorToInt(worldPosition.z / (float)world.chunkSize) * world.chunkSize
+            x = Mathf.FloorToInt(worldBlockPosition.x / (float)world.chunkSize) * world.chunkSize,
+            y = Mathf.FloorToInt(worldBlockPosition.y / (float)world.chunkHeight) * world.chunkHeight,
+            z = Mathf.FloorToInt(worldBlockPosition.z / (float)world.chunkSize) * world.chunkSize
         };
     }
 
@@ -144,7 +144,7 @@ public static class WorldDataHelper
         return positionToRemove;
     }
 
-    internal static List<Vector3Int> SelectPositionsToCreate(WorldData worldData, List<Vector3Int> allChunkPositionsNeeded, Vector3Int playerPosition)
+    internal static List<Vector3Int> SelectPositonsToCreate(WorldData worldData, List<Vector3Int> allChunkPositionsNeeded, Vector3Int playerPosition)
     {
         return allChunkPositionsNeeded
             .Where(pos => worldData.chunkDictionary.ContainsKey(pos) == false)
@@ -152,7 +152,7 @@ public static class WorldDataHelper
             .ToList();
     }
 
-    internal static List<Vector3Int> SelectDataPositionsToCreate(WorldData worldData, List<Vector3Int> allChunkDataPositionsNeeded, Vector3Int playerPosition)
+    internal static List<Vector3Int> SelectDataPositonsToCreate(WorldData worldData, List<Vector3Int> allChunkDataPositionsNeeded, Vector3Int playerPosition)
     {
         return allChunkDataPositionsNeeded
             .Where(pos => worldData.chunkDataDictionary.ContainsKey(pos) == false)

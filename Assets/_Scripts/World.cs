@@ -20,8 +20,8 @@ public class World : MonoBehaviour
     public TerrainGenerator terrainGenerator;
     public Vector2Int mapSeedOffset;
 
-
     CancellationTokenSource taskTokenSource = new CancellationTokenSource();
+
 
     //public Dictionary<Vector3Int, ChunkData> chunkDataDictionary = new Dictionary<Vector3Int, ChunkData>();
     //public Dictionary<Vector3Int, ChunkRenderer> chunkDictionary = new Dictionary<Vector3Int, ChunkRenderer>();
@@ -42,52 +42,14 @@ public class World : MonoBehaviour
         };
     }
 
-                                                                                                                                // public void GenerateWorld()
-                                                                                                                                // {
-                                                                                                                                //     // GenerateWorld(Vector3Int.zero);
-
-                                                                                                                                //     AsyncTest();
-                                                                                                                                //     Debug.Log("aaaaa");
-                                                                                                                                // }
-
-                                                                                                                                // private async void AsyncTest()
-                                                                                                                                // {
-                                                                                                                                //     StartCoroutine(AsyncCoroutine());
-                                                                                                                                //     int val = await TestTask();
-                                                                                                                                //     Debug.Log("Task returned "+ val);                      MultiThreading test
-                                                                                                                                //     StopAllCoroutines();
-                                                                                                                                //     Debug.Log("Finished Generation");
-                                                                                                                                // }
-
-                                                                                                                                // IEnumerator AsyncCoroutine()
-                                                                                                                                // {
-                                                                                                                                //     yield return new WaitForSeconds(0.5f);
-                                                                                                                                //     Debug.Log("Playing game "+ Time.time);
-                                                                                                                                //     StartCoroutine(AsyncCoroutine());
-
-
-                                                                                                                                // }
-
-                                                                                                                                // private async Task<int> TestTask()
-                                                                                                                                // {
-                                                                                                                                //     await Task.Delay(2000);
-                                                                                                                                //     return await Task.Run(() => 
-                                                                                                                                //     { 
-                                                                                                                                //         return 10;
-                                                                                                                                //     });
-                                                                                                                                // }
-
-                                                                                                                                
-
     public async void GenerateWorld()
     {
         await GenerateWorld(Vector3Int.zero);
     }
+
     private async Task GenerateWorld(Vector3Int position)
     {
-
-        WorldGenerationData worldGenerationData = await Task.Run(() => GetPositionsThatPlayerSees(position), taskTokenSource.Token);
-
+        WorldGenerationData worldGenerationData = await Task.Run(() => GetPositionsThatPlayerSees(position),taskTokenSource.Token);
 
         foreach (Vector3Int pos in worldGenerationData.chunkPositionsToRemove)
         {
@@ -98,7 +60,8 @@ public class World : MonoBehaviour
         {
             WorldDataHelper.RemoveChunkData(this, pos);
         }
-     
+
+
         ConcurrentDictionary<Vector3Int, ChunkData> dataDictionary = null;
 
         try
@@ -107,25 +70,25 @@ public class World : MonoBehaviour
         }
         catch (Exception)
         {
-            Debug.Log("Task Canceled");
+            Debug.Log("Task canceled");
             return;
         }
+        
 
-
-        foreach (var calculateData in dataDictionary)
+        foreach (var calculatedData in dataDictionary)
         {
-            worldData.chunkDataDictionary.Add(calculateData.Key, calculateData.Value);
+            worldData.chunkDataDictionary.Add(calculatedData.Key, calculatedData.Value);
         }
-        foreach(var chunkData in worldData.chunkDataDictionary.Values)
+        foreach (var chunkData in worldData.chunkDataDictionary.Values)
         {
             AddTreeLeafs(chunkData);
         }
-        
-        ConcurrentDictionary<Vector3Int, MeshData> meshDataDictionary = new ConcurrentDictionary<Vector3Int, MeshData>();
 
-        List<ChunkData> dataToRender =  worldData.chunkDataDictionary
+        ConcurrentDictionary<Vector3Int, MeshData> meshDataDictionary = new ConcurrentDictionary<Vector3Int, MeshData>();
+        
+        List<ChunkData> dataToRender = worldData.chunkDataDictionary
             .Where(keyvaluepair => worldGenerationData.chunkPositionsToCreate.Contains(keyvaluepair.Key))
-            .Select(keyvaluepair => keyvaluepair.Value)
+            .Select(keyvalpair => keyvalpair.Value)
             .ToList();
 
         try
@@ -134,36 +97,35 @@ public class World : MonoBehaviour
         }
         catch (Exception)
         {
-            Debug.Log("Task Canceled");
+            Debug.Log("Task canceled");
             return;
         }
-
 
         StartCoroutine(ChunkCreationCoroutine(meshDataDictionary));
     }
 
     private void AddTreeLeafs(ChunkData chunkData)
     {
-        foreach(var treeLeafes in chunkData.treeData.treeLeafes)
+        foreach (var treeLeafes in chunkData.treeData.treeLeafes)
         {
             Chunk.SetBlock(chunkData, treeLeafes, BlockType.TreeLeaves);
         }
     }
 
-    private async Task<ConcurrentDictionary<Vector3Int, MeshData>> CreateMeshDataAsync(List<ChunkData> dataToRender)
+    private Task<ConcurrentDictionary<Vector3Int, MeshData>> CreateMeshDataAsync(List<ChunkData> dataToRender)
     {
         ConcurrentDictionary<Vector3Int, MeshData> dictionary = new ConcurrentDictionary<Vector3Int, MeshData>();
-        return await Task.Run(() =>{
+        return Task.Run(() =>
+        {
 
             foreach (ChunkData data in dataToRender)
             {
-                if(taskTokenSource.Token.IsCancellationRequested)
+                if (taskTokenSource.Token.IsCancellationRequested)
                 {
                     taskTokenSource.Token.ThrowIfCancellationRequested();
                 }
                 MeshData meshData = Chunk.GetChunkMeshData(data);
                 dictionary.TryAdd(data.worldPosition, meshData);
-
             }
 
             return dictionary;
@@ -171,16 +133,15 @@ public class World : MonoBehaviour
         );
     }
 
-    private async Task<ConcurrentDictionary<Vector3Int, ChunkData>> CalculateWorldChunkData(List<Vector3Int> chunkDataPositionsToCreate)
+    private Task<ConcurrentDictionary<Vector3Int, ChunkData>> CalculateWorldChunkData(List<Vector3Int> chunkDataPositionsToCreate)
     {
         ConcurrentDictionary<Vector3Int, ChunkData> dictionary = new ConcurrentDictionary<Vector3Int, ChunkData>();
-        
-        // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        return await Task.Run(() =>
+
+        return Task.Run(() => 
         {
             foreach (Vector3Int pos in chunkDataPositionsToCreate)
-            {   
-                if(taskTokenSource.Token.IsCancellationRequested)
+            {
+                if (taskTokenSource.Token.IsCancellationRequested)
                 {
                     taskTokenSource.Token.ThrowIfCancellationRequested();
                 }
@@ -192,31 +153,29 @@ public class World : MonoBehaviour
         },
         taskTokenSource.Token
         );
+        
+        
     }
 
-    IEnumerator ChunkCreationCoroutine(ConcurrentDictionary<Vector3Int, MeshData> meshDataDictionary)
+    IEnumerator ChunkCreationCoroutine(ConcurrentDictionary<Vector3Int, MeshData> meshDataDictionary) 
     {
-
         foreach (var item in meshDataDictionary)
         {
             CreateChunk(worldData, item.Key, item.Value);
             yield return new WaitForEndOfFrame();
         }
-
         if (IsWorldCreated == false)
         {
             IsWorldCreated = true;
             OnWorldCreated?.Invoke();
         }
-
-
-
     }
 
-    private void CreateChunk(WorldData worldData, Vector3Int pos, MeshData meshData)
+    private void CreateChunk(WorldData worldData, Vector3Int position, MeshData meshData)
     {
-        ChunkRenderer chunkRenderer = worldRenderer.RenderChunk(worldData, pos, meshData);
-        worldData.chunkDictionary.Add(pos, chunkRenderer);
+        ChunkRenderer chunkRenderer = worldRenderer.RenderChunk(worldData, position, meshData);
+        worldData.chunkDictionary.Add(position, chunkRenderer);
+
     }
 
     internal bool SetBlock(RaycastHit hit, BlockType blockType)
@@ -273,10 +232,11 @@ public class World : MonoBehaviour
     private WorldGenerationData GetPositionsThatPlayerSees(Vector3Int playerPosition)
     {
         List<Vector3Int> allChunkPositionsNeeded = WorldDataHelper.GetChunkPositionsAroundPlayer(this, playerPosition);
+
         List<Vector3Int> allChunkDataPositionsNeeded = WorldDataHelper.GetDataPositionsAroundPlayer(this, playerPosition);
 
-        List<Vector3Int> chunkPositionsToCreate = WorldDataHelper.SelectPositionsToCreate(worldData, allChunkPositionsNeeded, playerPosition);
-        List<Vector3Int> chunkDataPositionsToCreate = WorldDataHelper.SelectDataPositionsToCreate(worldData, allChunkDataPositionsNeeded, playerPosition);
+        List<Vector3Int> chunkPositionsToCreate = WorldDataHelper.SelectPositonsToCreate(worldData, allChunkPositionsNeeded, playerPosition);
+        List<Vector3Int> chunkDataPositionsToCreate = WorldDataHelper.SelectDataPositonsToCreate(worldData, allChunkDataPositionsNeeded, playerPosition);
 
         List<Vector3Int> chunkPositionsToRemove = WorldDataHelper.GetUnnededChunks(worldData, allChunkPositionsNeeded);
         List<Vector3Int> chunkDataToRemove = WorldDataHelper.GetUnnededData(worldData, allChunkDataPositionsNeeded);
@@ -326,11 +286,13 @@ public class World : MonoBehaviour
         public List<Vector3Int> chunkDataToRemove;
         public List<Vector3Int> chunkPositionsToUpdate;
     }
+
+    
 }
 public struct WorldData
-    {
-        public Dictionary<Vector3Int, ChunkData> chunkDataDictionary;
-        public Dictionary<Vector3Int, ChunkRenderer> chunkDictionary;
-        public int chunkSize;
-        public int chunkHeight;
-    }
+{
+    public Dictionary<Vector3Int, ChunkData> chunkDataDictionary;
+    public Dictionary<Vector3Int, ChunkRenderer> chunkDictionary;
+    public int chunkSize;
+    public int chunkHeight;
+}

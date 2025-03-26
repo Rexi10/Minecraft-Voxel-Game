@@ -186,6 +186,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 253778093}
+        m_TargetAssemblyTypeName: World, Assembly-CSharp
+        m_MethodName: GenerateWorld
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnNewChunksGenerated:
     m_PersistentCalls:
       m_Calls:
@@ -932,12 +944,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1170538051}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 636cb0c97e72ee940995a85133d5332f, type: 3}
+  m_Script: {fileID: 11500000, guid: 14b99c6ee42756c499bf5adff26d9d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
   stoneThreshold: 0.5
-  stoneNoiseSettings: {fileID: 11400000, guid: ffc1ad8c93ab7b149b1d61188eb01c71, type: 2}
+  stoneNoiseSettings: {fileID: 11400000, guid: bf7ac94b12f3bf146824b3383f74fcb9, type: 2}
   domainWarping: {fileID: 266312874}
 --- !u!1 &1196623089
 GameObject:
@@ -965,7 +977,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1196623089}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b753a9e4668fc44196bd96dd7eb05a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d1730b55d39acb4f947be6b46f680a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 1631210104}
@@ -1463,7 +1475,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1631210103}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5841d698f47f9944f8deb1755bd48d96, type: 3}
+  m_Script: {fileID: 11500000, guid: 881b1bf2fb0d8764ca7632204cb96de4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 1828556453}
@@ -1558,6 +1570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunkPrefab: {fileID: 636769179254561469, guid: aedfd61c09a8e234ba2575081fd01cf1, type: 3}
+  chunksParent: {fileID: 0}
 --- !u!4 &1752335625
 Transform:
   m_ObjectHideFlags: 0
@@ -1599,11 +1612,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1828556452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04c7e98ec41548e4b90385e075dcacfd, type: 3}
+  m_Script: {fileID: 11500000, guid: e1756549054ffac4bb1dec438c80cd9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Next: {fileID: 0}
-  undergroundBlockType: 3
+  Next: {fileID: 1631210104}
+  undergroundBlockType: 5
 --- !u!4 &1828556454
 Transform:
   m_ObjectHideFlags: 0
@@ -1645,11 +1658,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1886053552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afb183cca32c1274e93a35330296f20f, type: 3}
+  m_Script: {fileID: 11500000, guid: e678db9765182744987920f98bf430aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 1196623090}
-  waterLevel: 3
+  waterLevel: 10
 --- !u!4 &1886053554
 Transform:
   m_ObjectHideFlags: 0
